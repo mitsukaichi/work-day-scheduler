@@ -3,7 +3,12 @@
 // in the html.
 
 // need to override the existingSchedule to show the one saved in local storage
-var existingSchedule = [];
+
+if (JSON.parse(localStorage.getItem("workDayScheduler") === null)){
+  var existingSchedule = [];
+} else {
+  var existingSchedule = JSON.parse(localStorage.getItem("workDayScheduler"));
+}
 
 $(function () {
   $(".time-block").on("click",".saveBtn",function(event){
@@ -37,11 +42,15 @@ for (i = 0; i < 8; i++) {
   }
 };
 
-console.log(timeBlock.eq(1).attr("id").substring(5) < (dayjs().format("HH")));
-
   // TODO: Add code to get any user input that was saved in localStorage and set
-  // the values of the corresponding textarea elements. HINT: How can the id
-  // attribute of each time-block be used to do this?
+  // the values of the corresponding textarea elements. 
+
+for (i = 0; i < existingSchedule.length; i++){
+  var savedHourIndex = existingSchedule[i].hour.substring(5) - 9;
+  var savedText = existingSchedule[i].text;
+  $(".container-lg").children().eq(savedHourIndex).children(".description").text(savedText);
+};
+
   
   // TODO: Add code to display the current date in the header of the page.
 
