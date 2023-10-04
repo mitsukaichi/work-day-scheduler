@@ -1,22 +1,27 @@
 // Wrap all code that interacts with the DOM in a call to jQuery to ensure that
 // the code isn't run until the browser has finished rendering all the elements
 // in the html.
-
+$( document ).ready(function() {
 // need to override the existingSchedule to show the one saved in local storage
 
 if (JSON.parse(localStorage.getItem("workDayScheduler") === null)){
   var existingSchedule = [];
 } else {
   var existingSchedule = JSON.parse(localStorage.getItem("workDayScheduler"));
-}
+};
+
+console.log(existingSchedule);
 
 $(function () {
   $(".time-block").on("click",".saveBtn",function(event){
     var buttonClicked = $(event.target);
     var scheduleDescription = buttonClicked.siblings().eq(1).val();
     var scheduledHour = buttonClicked.parent().attr("id");
+    console.log(scheduleDescription);
+    console.log(scheduledHour);
     if (scheduleDescription === " " || scheduleDescription === ""){
       alert("You cannot save empty schedule");
+      console.log(existingSchedule);
     } else {
       var newSchedule = {
         hour: scheduledHour,
@@ -67,5 +72,7 @@ if (dayjs().format("D") % 10 === 1) {
 };
 
 $("#currentDay").text(currentDay); 
+
+});
 
 });
