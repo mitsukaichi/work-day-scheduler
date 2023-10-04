@@ -2,39 +2,39 @@
 // the code isn't run until the browser has finished rendering all the elements
 // in the html.
 $( document ).ready(function() {
-// need to override the existingSchedule to show the one saved in local storage
 
+// retrieve the data already saved in the local storage if any
 if (JSON.parse(localStorage.getItem("workDayScheduler") === null)){
   var existingSchedule = [];
 } else {
   var existingSchedule = JSON.parse(localStorage.getItem("workDayScheduler"));
 };
 
-console.log(existingSchedule);
+
+// Save the input in the local storage when the save icon is clicked
 
 $(function () {
-  $(".time-block").on("click",".saveBtn",function(event){
-    var buttonClicked = $(event.target);
-    var scheduleDescription = buttonClicked.siblings().eq(1).val();
-    var scheduledHour = buttonClicked.parent().attr("id");
-    console.log(scheduleDescription);
-    console.log(scheduledHour);
-    if (scheduleDescription === " " || scheduleDescription === ""){
-      alert("You cannot save empty schedule");
-      console.log(existingSchedule);
-    } else {
-      var newSchedule = {
-        hour: scheduledHour,
-        text: scheduleDescription
-      };
-      existingSchedule.push(newSchedule);
-      localStorage.setItem("workDayScheduler",JSON.stringify(existingSchedule));
-    }
+    $(".time-block").on("click",".fa-save",function(event){
+      var iconClicked = $(event.target);
+      var scheduleDescription = iconClicked.parent().siblings().eq(1).val();
+      var scheduledHour = iconClicked.parent().parent().attr("id");
+      if (scheduleDescription === " " || scheduleDescription === ""){
+        alert("You cannot save empty schedule");
+        console.log(existingSchedule);
+      } else {
+        var newSchedule = {
+          hour: scheduledHour,
+          text: scheduleDescription
+        };
+        existingSchedule.push(newSchedule);
+        localStorage.setItem("workDayScheduler",JSON.stringify(existingSchedule));
+      }
+    });
   });
 
 
-  // TODO: Add code to apply the past, present, or future class to each time
-  // block by comparing the id to the current hour.
+
+  // Apply the past, present, or future class to each time block by comparing the id to the current hour.
 var timeBlock = $(".time-block");
 
 for (i = 0; i < 8; i++) {
@@ -47,7 +47,7 @@ for (i = 0; i < 8; i++) {
   }
 };
 
-  // TODO: Add code to get any user input that was saved in localStorage and set
+  // Get any user input that was saved in localStorage and set
   // the values of the corresponding textarea elements. 
 
 for (i = 0; i < existingSchedule.length; i++){
@@ -57,7 +57,7 @@ for (i = 0; i < existingSchedule.length; i++){
 };
 
   
-  // TODO: Add code to display the current date in the header of the page.
+  // Display the current date in the header of the page.
 
 var currentDay = "";  
 
@@ -73,6 +73,4 @@ if (dayjs().format("D") % 10 === 1) {
 
 $("#currentDay").text(currentDay); 
 
-});
-
-});
+  });
