@@ -15,15 +15,15 @@ $(function () {
     var buttonClicked = $(event.target);
     var scheduleDescription = buttonClicked.siblings().eq(1).val();
     var scheduledHour = buttonClicked.parent().attr("id");
-    if (scheduleDescription !== " "){
+    if (scheduleDescription === " " || scheduleDescription === ""){
+      alert("You cannot save empty schedule");
+    } else {
       var newSchedule = {
         hour: scheduledHour,
         text: scheduleDescription
       };
       existingSchedule.push(newSchedule);
       localStorage.setItem("workDayScheduler",JSON.stringify(existingSchedule));
-    } else {
-      alert("You cannot save empty schedule");
     }
   });
 
