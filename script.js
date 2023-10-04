@@ -11,27 +11,33 @@ if (JSON.parse(localStorage.getItem("workDayScheduler") === null)){
 };
 
 
-// Save the input in the local storage when the save icon is clicked
-
+// Save the input in the local storage
 $(function () {
-    $(".time-block").on("click",".fa-save",function(event){
-      var iconClicked = $(event.target);
-      var scheduleDescription = iconClicked.parent().siblings().eq(1).val();
-      var scheduledHour = iconClicked.parent().parent().attr("id");
-      if (scheduleDescription === " " || scheduleDescription === ""){
-        alert("You cannot save empty schedule");
-        console.log(existingSchedule);
-      } else {
-        var newSchedule = {
-          hour: scheduledHour,
-          text: scheduleDescription
-        };
-        existingSchedule.push(newSchedule);
-        localStorage.setItem("workDayScheduler",JSON.stringify(existingSchedule));
-      }
-    });
+  $(".time-block").on("click",".saveBtn",function(event){
+    var buttonClicked = $(event.target);
+    // Retrieve and push the element when the user clicked outside of the icon
+    if (buttonClicked.attr("class").includes("saveBtn")){
+      var scheduleDescription = buttonClicked.siblings().eq(1).val();
+      var scheduledHour = buttonClicked.parent().attr("id");
+      var newSchedule = {
+        hour: scheduledHour,
+        text: scheduleDescription
+      };
+      existingSchedule.push(newSchedule);
+      localStorage.setItem("workDayScheduler",JSON.stringify(existingSchedule));
+    // Retrieve and push the element when the user clicked on the icon
+    } else if (buttonClicked.attr("class").includes("fa-save")) {
+      var scheduleDescription = buttonClicked.parent().siblings().eq(1).val();
+      var scheduledHour = buttonClicked.parent().parent().attr("id");
+      var newSchedule = {
+        hour: scheduledHour,
+        text: scheduleDescription
+      };
+      existingSchedule.push(newSchedule);
+      localStorage.setItem("workDayScheduler",JSON.stringify(existingSchedule));
+    }
   });
-
+});
 
 
   // Apply the past, present, or future class to each time block by comparing the id to the current hour.
